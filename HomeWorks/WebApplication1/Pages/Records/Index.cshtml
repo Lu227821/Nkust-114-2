@@ -1,0 +1,91 @@
+@page
+@model WebApplication1.Pages.Records.IndexModel
+@{
+    ViewData["Title"] = "綠色商店查詢";
+}
+
+<h1>綠色商店查詢</h1>
+
+<div class="sticky-top" style="top:56px; z-index:1020;">
+    <div class="card mb-3 shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="fw-bold">查詢條件</div>
+            <div>
+                <button class="btn btn-sm btn-outline-secondary me-2" type="button" data-bs-toggle="collapse" data-bs-target="#searchCollapse" aria-expanded="true" aria-controls="searchCollapse">收合/展開</button>
+                <a class="btn btn-sm btn-secondary" href="/Records">清除</a>
+            </div>
+        </div>
+        <div id="searchCollapse" class="collapse show">
+            <div class="card-body">
+                <form method="get" class="row g-3 mb-0">
+                    <div class="col-md-3">
+                        <label class="form-label">類別代碼</label>
+                        <input class="form-control" name="搜尋類別代碼" value="@Model.搜尋類別代碼" placeholder="例如：1" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">店鋪代碼</label>
+                        <input class="form-control" name="搜尋店家編號" value="@Model.搜尋店家編號" placeholder="例如：L000686" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">店鋪名稱 (模糊查詢)</label>
+                        <input class="form-control" name="搜尋店家名稱" value="@Model.搜尋店家名稱" placeholder="例如：大同3C" />
+                    </div>
+                    <div class="col-md-2 align-self-end">
+                        <button class="btn btn-primary w-100" type="submit">查詢</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-success mb-3">
+    顯示從資料庫中撈取的資料，目前共 <strong>@Model.TotalCount</strong> 筆符合條件。
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-striped table-sm table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>類別代碼</th>
+                        <th>標誌編號</th>
+                        <th>店鋪代碼</th>
+                        <th>店鋪名稱</th>
+                        <th>負責人</th>
+                        <th>店鋪地址</th>
+                        <th>聯絡電話</th>
+                        <th>統一編號</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Items != null && Model.Items.Any())
+                    {
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.ClassType</td>
+                                <td>@item.FlagNo</td>
+                                <td>@item.StoreNo</td>
+                                <td>@item.StoreName</td>
+                                <td>@item.Undertaker</td>
+                                <td>@item.StoreAddr</td>
+                                <td>@item.ContactTel</td>
+                                <td>@item.TaxNo</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9" class="text-center text-muted py-4">目前沒有符合條件的資料，或請確認是否已執行 ConsoleApp 匯入資料。</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
